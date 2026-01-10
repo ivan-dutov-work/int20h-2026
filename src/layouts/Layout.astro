@@ -1,9 +1,7 @@
 ---
-// 1. Import the helper and the image
 import { getImage } from "astro:assets";
 import textureImage from "../assets/backgrounds/texture.webp";
 
-// 2. Generate the optimized URL (preserves Astro's image compression)
 const optimizedBackground = await getImage({
   src: textureImage,
   format: "webp",
@@ -17,9 +15,46 @@ const optimizedBackground = await getImage({
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>INT20H Хакатон 2026</title>
+    <meta
+      name="description"
+      content="Приєднуйся до INT20H Hackathon 2026 — найбільшого студентського IT‑хакатону в Україні. 15–16 березня у Києві. Реєструйся, пройди відбірковий тест і покажи свої навички в Web, AI, Data Science та UI/UX Design."
+    />
+    <meta
+      name="keywords"
+      content="INT20H, хакатон, ІТ, AI, штучний інтелект, конкурс програмування, студентський хакатон 2026, Київ"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="canonical" href="https://int20h-2026.vercel.app/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://int20h-2026.vercel.app/" />
+    <meta property="og:title" content="INT20H Хакатон 2026" />
+    <meta
+      property="og:description"
+      content="Найкращі студентські команди змагатимуться у технічних завданнях з Web, AI, Data Science та UI/UX Design. Пройди відбірковий тест і потрап до фіналу."
+    />
+    <meta
+      property="og:image"
+      content="https://int20h-2026.vercel.app/og-image.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="INT20H 2026" />
+    <meta property="og:locale" content="uk_UA" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@int20h" />
+    <meta name="twitter:creator" content="@int20h" />
+    <meta name="twitter:title" content="INT20H Хакатон 2026" />
+    <meta
+      name="twitter:description"
+      content="Приєднуйся до INT20H — пройди відбір і змагайся у фіналі. Реєстрація відкрита."
+    />
+    <meta
+      name="twitter:image"
+      content="https://int20h-2026.vercel.app/og-image.png"
+    />
     <meta name="generator" content={Astro.generator} />
 
-    {/* 3. Pass the optimized URL to CSS variables */}
     <style define:vars={{ bgUrl: `url("${optimizedBackground.src}")` }}></style>
   </head>
 
