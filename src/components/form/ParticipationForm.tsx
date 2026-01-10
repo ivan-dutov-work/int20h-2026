@@ -18,10 +18,20 @@ import { Work } from "./sections/JobSection";
 import { FinalSection } from "./sections/FinalSection";
 import { EndScreen } from "./EndScreen";
 
-const BACKEND_URL =
-  import.meta.env.PUBLIC_BACKEND_URL ||
-  import.meta.env.BACKEND_URL ||
-  "http://localhost:8000";
+const getBackendUrl = () => {
+  let url =
+    import.meta.env.PUBLIC_BACKEND_URL ||
+    import.meta.env.BACKEND_URL ||
+    "http://localhost:8000";
+
+  if (!url.startsWith("http://") && !url.startsWith("https://")) {
+    url = `https://${url}`;
+  }
+
+  return url.replace(/\/$/, "");
+};
+
+const BACKEND_URL = getBackendUrl();
 
 const formSchema = z.object({
   firstName: z.string().min(2, {
