@@ -13,47 +13,41 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Combobox } from "../../ui/combobox";
 
-const categories = [
+const categoriesStub = [
   { value: "web", label: "Web Development" },
   { value: "ai", label: "Artificial Intelligence" },
   { value: "data-science", label: "Data Science" },
   { value: "ui-ux", label: "UI/UX Design" },
 ];
 
-const universities = [
-  {
-    value: "kpi",
-    label:
-      "National Technical University of Ukraine “Igor Sikorsky Kyiv Polytechnic Institute”",
-  },
-  {
-    value: "knu",
-    label: "Taras Shevchenko National University of Kyiv",
-  },
-  {
-    value: "naukma",
-    label: "National University of Kyiv-Mohyla Academy",
-  },
-  {
-    value: "lviv-polytechnic",
-    label: "Lviv Polytechnic National University",
-  },
-  {
-    value: "lnu",
-    label: "Ivan Franko National University of Lviv",
-  },
-  {
-    value: "khpi",
-    label: "National Technical University “Kharkiv Polytechnic Institute”",
-  },
-  {
-    value: "karazin",
-    label: "V.N. Karazin Kharkiv National University",
-  },
-];
+export interface Category {
+  id: number;
+  name: string;
+}
 
-export function InitialSection() {
+export interface University {
+  id: number;
+  name: string;
+  city?: string;
+}
+
+interface InitialSectionProps {
+  categories: Category[];
+  universities: University[];
+}
+
+export function InitialSection({ categories, universities }: InitialSectionProps) {
   const { control, trigger } = useFormContext();
+
+  const categoryItems = categories.map((c) => ({
+    value: c.name,
+    label: c.name,
+  }));
+
+  const universityItems = universities.map((u) => ({
+    value: u.name,
+    label: u.name,
+  }));
 
   return (
     <div className="space-y-6">
@@ -121,7 +115,7 @@ export function InitialSection() {
             <FormLabel>Твій навчальний заклад *</FormLabel>
             <FormControl>
               <Combobox
-                items={universities}
+                items={universityItems}
                 value={field.value}
                 onChange={(value) => {
                   field.onChange(value);
@@ -144,7 +138,7 @@ export function InitialSection() {
             <FormLabel>В якій категорії плануєш змагатися? *</FormLabel>
             <FormControl>
               <Combobox
-                items={categories}
+                items={categoryItems}
                 value={field.value}
                 onChange={(value) => {
                   field.onChange(value);

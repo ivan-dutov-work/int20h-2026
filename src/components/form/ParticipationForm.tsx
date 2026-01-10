@@ -1,17 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { InitialSection } from "./sections/InitialSection";
+import {
+  InitialSection,
+  type Category,
+  type University,
+} from "./sections/InitialSection";
 import { HasTeam } from "./sections/HasTeamSection";
 import { NoTeam } from "./sections/NoTeamSection";
 import { Work } from "./sections/JobSection";
 import { FinalSection } from "./sections/FinalSection";
+
+const BACKEND_URL =
+  import.meta.env.PUBLIC_BACKEND_URL ||
+  import.meta.env.BACKEND_URL ||
+  "http://localhost:8000";
 
 const formSchema = z.object({
   firstName: z.string().min(2, {
@@ -180,6 +189,41 @@ const formSchemaWithRefine = formSchema.superRefine((data, ctx) => {
 
 export function ParticipationForm() {
   const [step, setStep] = useState(1);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [universities, setUniversities] = useState<University[]>([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(`${BACKEND_URL}/categories/`);
+        if (!response.ok) throw new Error("Failed to fetch categories");
+        const data = await response.json();
+        setCategories(
+          (data.categories || []).sort((a: Category, b: Category) => a.id - b.id)
+        );
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    const fetchUniversities = async () => {
+      try {
+        const response = await fetch(`${BACKEND_URL}/unis/`);
+        if (!response.ok) throw new Error("Failed to fetch universities");
+        const data = await response.json();
+        setUniversities(
+          (data.universities || []).sort(
+            (a: University, b: University) => a.id - b.id
+          )
+        );
+      } catch (error) {
+        console.error("Error fetching universities:", error);
+      }
+    };
+
+    fetchCategories();
+    fetchUniversities();
+  }, []);
 
   const form = useForm({
     resolver: zodResolver(formSchemaWithRefine),
@@ -290,7 +334,12 @@ export function ParticipationForm() {
 
         <Form {...form}>
           <form onSubmit={(e) => e.preventDefault()} className="space-y-8">
-            {step === 1 && <InitialSection />}
+            {step === 1 && (
+              <InitialSection
+                categories={categories}
+                universities={universities}
+              />
+            )}
             {step === 2 &&
               (form.getValues("hasTeam") === "yes" ? <HasTeam /> : <NoTeam />)}
             {step === 3 && <Work />}
