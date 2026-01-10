@@ -131,6 +131,7 @@ export function Work() {
                       Я погоджуюсь на обробку та передачу мого CV
                       компаніям-партнерам для пошуку роботи згідно з умовами{" "}
                       <a
+                        className="text-accent underline"
                         href="https://drive.google.com/file/d/15C9IuDwTQCrgWCaMgOrpIKbTujgVIM5x/view?usp=sharing"
                         target="_blank"
                         rel="noopener noreferrer"

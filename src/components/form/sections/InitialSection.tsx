@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Combobox } from "../../ui/combobox";
+import { MultiSelectCombobox } from "../../ui/multiselect-combobox";
 
 export interface Category {
   id: number;
@@ -27,9 +28,14 @@ export interface University {
 interface InitialSectionProps {
   categories: Category[];
   universities: University[];
+  skills: string[];
 }
 
-export function InitialSection({ categories, universities }: InitialSectionProps) {
+export function InitialSection({
+  categories,
+  universities,
+  skills,
+}: InitialSectionProps) {
   const { control, trigger } = useFormContext();
 
   const categoryItems = categories.map((c) => ({
@@ -41,6 +47,21 @@ export function InitialSection({ categories, universities }: InitialSectionProps
     value: u.name,
     label: u.name,
   }));
+
+  const skillItems = skills.map((s) => ({
+    value: s.toLowerCase(),
+    label: s,
+  }));
+
+  const studyYearItems = [
+    { value: "1", label: "1 курс" },
+    { value: "2", label: "2 курс" },
+    { value: "3", label: "3 курс" },
+    { value: "4", label: "4 курс" },
+    { value: "5", label: "1 магістр" },
+    { value: "6", label: "2 магістр" },
+    { value: "7", label: "Закінчив" },
+  ];
 
   return (
     <div className="space-y-6">
@@ -102,6 +123,29 @@ export function InitialSection({ categories, universities }: InitialSectionProps
 
       <FormField
         control={control}
+        name="studyYear"
+        render={({ field }) => (
+          <FormItem className="flex flex-col">
+            <FormLabel>Курс *</FormLabel>
+            <FormControl>
+              <Combobox
+                items={studyYearItems}
+                value={field.value}
+                onChange={(value) => {
+                  field.onChange(value);
+                  void trigger(field.name);
+                }}
+                placeholder="Обери курс..."
+                emptyText="Курс не знайдено."
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={control}
         name="university"
         render={({ field }) => (
           <FormItem className="flex flex-col">
@@ -139,6 +183,28 @@ export function InitialSection({ categories, universities }: InitialSectionProps
                 }}
                 placeholder="Оберіть категорію..."
                 emptyText="Категорію не знайдено."
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={control}
+        name="skills"
+        render={({ field }) => (
+          <FormItem className="flex flex-col">
+            <FormLabel>Навички</FormLabel>
+            <FormControl>
+              <MultiSelectCombobox
+                items={skillItems}
+                selectedValues={field.value || []}
+                onChange={(values) => {
+                  field.onChange(values);
+                }}
+                placeholder="Обери навички..."
+                emptyText="Навичку не знайдено."
               />
             </FormControl>
             <FormMessage />

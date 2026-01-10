@@ -63,6 +63,7 @@ export function Combobox({
               {items.map((item) => (
                 <CommandItem
                   key={item.value}
+                  className="group"
                   // We combine label and value so fuzzy search works on both
                   value={`${item.label} ${item.value}`}
                   onSelect={() => {
@@ -74,7 +75,7 @@ export function Combobox({
                 >
                   <Check
                     className={cn(
-                      "mr-2 h-4 w-4",
+                      "mr-2 h-4 w-4 group-data-[selected=true]:text-black text-foreground",
                       value === item.value ? "opacity-100" : "opacity-0"
                     )}
                   />

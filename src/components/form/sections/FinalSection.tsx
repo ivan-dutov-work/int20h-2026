@@ -98,6 +98,7 @@ export function FinalSection() {
                 <label>
                   Я надаю згоду на обробку моїх персональних даних відповідно до{" "}
                   <a
+                    className="text-accent underline"
                     href="https://zakon.rada.gov.ua/laws/show/2297-17"
                     target="_blank"
                     rel="noopener noreferrer"

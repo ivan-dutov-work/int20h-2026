@@ -16,6 +16,7 @@ import { HasTeam } from "./sections/HasTeamSection";
 import { NoTeam } from "./sections/NoTeamSection";
 import { Work } from "./sections/JobSection";
 import { FinalSection } from "./sections/FinalSection";
+import { EndScreen } from "./EndScreen";
 
 const BACKEND_URL =
   import.meta.env.PUBLIC_BACKEND_URL ||
@@ -53,6 +54,9 @@ const formSchema = z.object({
   university: z.string().min(1, {
     message: "Будь ласка, виберіть університет.",
   }),
+  studyYear: z.string().min(1, {
+    message: "Будь ласка, виберіть курс.",
+  }),
   category: z.string().min(1, {
     message: "Будь ласка, виберіть категорію.",
   }),
@@ -73,6 +77,7 @@ const formSchema = z.object({
   otherSource: z.string().optional(),
   comment: z.string().optional(),
   personalDataConsent: z.boolean(),
+  skills: z.array(z.string()).default([]),
 });
 
 // Cross-field validation
@@ -183,6 +188,11 @@ export function ParticipationForm() {
   const [step, setStep] = useState(1);
   const [categories, setCategories] = useState<Category[]>([]);
   const [universities, setUniversities] = useState<University[]>([]);
+  const [skills, setSkills] = useState<string[]>([]);
+  const [submissionStatus, setSubmissionStatus] = useState<
+    "idle" | "submitting" | "success" | "failure"
+  >("idle");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -215,8 +225,21 @@ export function ParticipationForm() {
       }
     };
 
+    const fetchSkills = async () => {
+      try {
+        const response = await fetch(`${BACKEND_URL}/skills/`);
+        if (!response.ok) throw new Error("Failed to fetch skills");
+        const data = await response.json();
+        // data is expected to be string[]
+        setSkills(data || []);
+      } catch (error) {
+        console.error("Error fetching skills:", error);
+      }
+    };
+
     fetchCategories();
     fetchUniversities();
+    fetchSkills();
   }, []);
 
   const form = useForm({
@@ -227,6 +250,7 @@ export function ParticipationForm() {
       telegram: "",
       phone: "",
       university: "",
+      studyYear: "",
       category: "",
       format: undefined,
       hasTeam: undefined,
@@ -241,9 +265,31 @@ export function ParticipationForm() {
       otherSource: "",
       comment: "",
       personalDataConsent: false,
+      skills: [],
     },
     mode: "onTouched",
   });
+
+  // Load saved data
+  useEffect(() => {
+    const saved = localStorage.getItem("participation-form-data");
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        form.reset(parsed);
+      } catch (e) {
+        console.error("Failed to parse saved form data", e);
+      }
+    }
+  }, []); // Run only once on mount
+
+  // Save data on change
+  useEffect(() => {
+    const subscription = form.watch((value) => {
+      localStorage.setItem("participation-form-data", JSON.stringify(value));
+    });
+    return () => subscription.unsubscribe();
+  }, [form.watch]);
 
   const { trigger, getValues, handleSubmit } = form;
 
@@ -255,6 +301,7 @@ export function ParticipationForm() {
         "telegram",
         "phone",
         "university",
+        "studyYear",
         "category",
         "format",
         "hasTeam",
@@ -294,11 +341,79 @@ export function ParticipationForm() {
       ]);
       if (!ok) return;
       // Final submit
-      handleSubmit((values) => {
-        console.log("Final submission", values);
+      handleSubmit(async (values) => {
+        setSubmissionStatus("submitting");
+        try {
+          const categoryId = categories.find(
+            (c) => c.name === values.category
+          )?.id;
+          const universityId = universities.find(
+            (u) => u.name === values.university
+          )?.id;
+
+          const payload = {
+            full_name: values.firstName,
+            email: values.email,
+            telegram: values.telegram,
+            phone: values.phone,
+            university_id: universityId,
+            category_id: categoryId,
+            study_year: parseInt(values.studyYear),
+            skills: values.skills,
+            format: values.format,
+            has_team: values.hasTeam === "yes",
+            team_leader: values.teamLeader === "yes",
+            team_name: values.teamName || "",
+            wants_job: values.wantsCV === "yes",
+            job_description: values.description || "",
+            cv: values.cv || "",
+            linkedin: values.linkedin || "",
+            work_consent: values.workConsent || false,
+            source: values.source,
+            otherSource: values.otherSource || null,
+            comment: values.comment || null,
+            personal_data_consent: true,
+          };
+
+          const response = await fetch(`${BACKEND_URL}/form/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          });
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.detail || "Submission failed");
+          }
+
+          localStorage.removeItem("participation-form-data");
+          setSubmissionStatus("success");
+        } catch (error: any) {
+          console.error("Submission error:", error);
+          setSubmissionStatus("failure");
+          setErrorMessage(
+            error.message || "Щось пішло не так. Спробуйте ще раз."
+          );
+        }
       })();
       return;
     }
+  }
+
+  if (submissionStatus === "success") {
+    return <EndScreen type="success" />;
+  }
+
+  if (submissionStatus === "failure") {
+    return (
+      <EndScreen
+        type="failure"
+        message={errorMessage}
+        onRetry={() => setSubmissionStatus("idle")}
+      />
+    );
   }
 
   return (
@@ -330,6 +445,7 @@ export function ParticipationForm() {
               <InitialSection
                 categories={categories}
                 universities={universities}
+                skills={skills}
               />
             )}
             {step === 2 &&
@@ -343,6 +459,7 @@ export function ParticipationForm() {
                   type="button"
                   variant="pixel-outline"
                   onClick={() => setStep(step - 1)}
+                  disabled={submissionStatus === "submitting"}
                 >
                   Назад
                 </Button>
@@ -353,8 +470,13 @@ export function ParticipationForm() {
                 type="button"
                 onClick={handleNext}
                 variant="pixel"
+                disabled={submissionStatus === "submitting"}
               >
-                {step < 4 ? "Далі" : "Надіслати"}
+                {submissionStatus === "submitting"
+                  ? "Надсилання..."
+                  : step < 4
+                  ? "Далі"
+                  : "Надіслати"}
               </Button>
             </div>
           </form>
