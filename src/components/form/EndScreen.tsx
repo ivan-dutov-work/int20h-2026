@@ -29,8 +29,8 @@ export function EndScreen({ type, message, onRetry }: EndScreenProps) {
           </svg>
         </div>
         <div className="space-y-2">
-          <h2 className="text-2xl font-pixelated text-brand-light">Успіх!</h2>
-          <p className="text-brand-gray max-w-md">
+          <h2 className="text-2xl font-pixelated text-green-400">Успіх!</h2>
+          <p className="text-brand-light max-w-md">
             {message ||
               "Дякуємо за реєстрацію! Перевіряй пошту/Telegram для отримання подальших інструкцій."}
           </p>
@@ -67,7 +67,7 @@ export function EndScreen({ type, message, onRetry }: EndScreenProps) {
       </div>
       <div className="space-y-2">
         <h2 className="text-2xl font-pixelated text-red-400">Помилка</h2>
-        <p className="text-brand-gray max-w-md">
+        <p className="text-brand-light max-w-md">
           {message || "Щось пішло не так. Спробуйте ще раз."}
         </p>
       </div>
