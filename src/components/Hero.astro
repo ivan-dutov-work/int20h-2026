@@ -1,0 +1,31 @@
+<div
+  className="flex flex-col md:grid md:grid-cols-2 md:grid-rows-1 gap-8 md:gap-16 py-8 md:py-15 px-6 md:px-16 items-center"
+>
+  <img
+    className="w-full max-w-md md:max-w-full"
+    src="hero.svg"
+    alt="INT20H-2026 hero"
+  />
+  <div className="flex flex-col gap-12">
+    <div className="flex flex-col gap-6">
+      <h2
+        className="font-black text-lg leading-1.2 tracking-[-0.72px] max-w-xl"
+      >
+        Ставай частинкою найбільшого студентського IT-хакатону в Україні!
+      </h2>
+      <div>
+        <p className="mt-4">14-15 березня 2026, Київ</p>
+        <p className="text-accent font-bold">Гібридний формат</p>
+      </div>
+    </div>
+
+    <Button
+      variant="pixel"
+      pixelSize="lg"
+      className="font-pixelated font-bold text-lg max-w-md"
+      onClick={() => setShowForm(true)}
+    >
+      Registration
+    </Button>
+  </div>
+</div>

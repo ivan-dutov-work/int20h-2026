@@ -1,0 +1,223 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@font-face {
+  font-family: "Nunito Sans";
+  src: url("./assets/fonts/NunitoSans.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Pixeloid Sans";
+  src: url("./assets/fonts/PixeloidSans-Bold.otf") format("truetype");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Pixeloid Sans";
+  src: url("./assets/fonts/PixeloidSans.otf") format("truetype");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Pixelify Sans";
+  src: url("./assets/fonts/PixelifySans.ttf") format("truetype");
+}
+
+@custom-variant dark (&:is(.dark *));
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: "Nunito Sans", Arial, sans-serif;
+  --font-pixelated: "Pixeloid Sans", sans-serif;
+  --font-pixelated-secondary: "Pixelify Sans", sans-serif;
+
+  --color-brand-dark: #262626; /* Was brand-dark */
+  --color-brand-gray: #313131; /* Was secondary-bg */
+  --color-brand-light: #efefef; /* Was text */
+  --color-brand-cyan: #36ebff; /* Was accent */
+  --color-brand-pink: #f6417b; /* Was accent-secondary */
+  --color-brand-gold: #d9d9d9; /* Was accent-gold */
+}
+
+:root {
+  @apply bg-background text-foreground text-base;
+
+  --radius: 0.625rem;
+
+  /* Mapping semantic roles to your brand colors */
+  --background: var(--color-brand-dark);
+  --foreground: var(--color-brand-light);
+
+  --card: var(--color-brand-gray);
+  --card-foreground: var(--color-brand-light);
+
+  --popover: var(--color-brand-gray);
+  --popover-foreground: var(--color-brand-light);
+
+  --primary: var(--color-brand-cyan);
+  --primary-foreground: var(--color-brand-dark);
+
+  --secondary: var(--color-brand-gray);
+  --secondary-foreground: var(--color-brand-light);
+
+  --muted: var(--color-brand-gray);
+  --muted-foreground: oklch(0.708 0 0);
+
+  --accent: var(--color-brand-cyan);
+  --accent-foreground: var(--color-brand-dark);
+
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: var(--color-brand-light);
+
+  --border: var(--color-brand-gray);
+  --input: var(--color-brand-gray);
+  --ring: var(--color-brand-cyan);
+
+  /* Charts */
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+
+  /* Sidebar */
+  --sidebar: var(--color-brand-gray);
+  --sidebar-foreground: var(--color-brand-light);
+  --sidebar-primary: var(--color-brand-cyan);
+  --sidebar-primary-foreground: var(--color-brand-dark);
+  --sidebar-accent: var(--color-brand-gray);
+  --sidebar-accent-foreground: var(--color-brand-light);
+  --sidebar-border: var(--color-brand-dark);
+  --sidebar-ring: var(--color-brand-cyan);
+}
+
+@layer base {
+  :root {
+    @variant sm {
+      --text-sm: 12px;
+      --text-base: 16px;
+      --text-lg: 20px;
+      --text-xl: 24px;
+    }
+    @variant md {
+      --text-sm: 14px;
+      --text-base: 20px;
+      --text-lg: 28px;
+      --text-xl: 40px;
+    }
+    @variant lg {
+      --text-sm: 16px;
+      --text-base: 24px;
+      --text-lg: 36px;
+      --text-xl: 64px;
+    }
+  }
+}
+
+/* 3. TAILWIND UTILITY MAPPING
+  Maps utility classes (e.g. bg-background) to the semantic variables.
+*/
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+}
+
+.pixelated-image {
+  image-rendering: pixelated;
+}
+
+.pixelated-corners {
+  clip-path: polygon(
+    0px calc(100% - 20px),
+    4px calc(100% - 20px),
+    4px calc(100% - 12px),
+    8px calc(100% - 12px),
+    8px calc(100% - 8px),
+    12px calc(100% - 8px),
+    12px calc(100% - 4px),
+    20px calc(100% - 4px),
+    20px 100%,
+    calc(100% - 20px) 100%,
+    calc(100% - 20px) calc(100% - 4px),
+    calc(100% - 12px) calc(100% - 4px),
+    calc(100% - 12px) calc(100% - 8px),
+    calc(100% - 8px) calc(100% - 8px),
+    calc(100% - 8px) calc(100% - 12px),
+    calc(100% - 4px) calc(100% - 12px),
+    calc(100% - 4px) calc(100% - 20px),
+    100% calc(100% - 20px),
+    100% 20px,
+    calc(100% - 4px) 20px,
+    calc(100% - 4px) 12px,
+    calc(100% - 8px) 12px,
+    calc(100% - 8px) 8px,
+    calc(100% - 12px) 8px,
+    calc(100% - 12px) 4px,
+    calc(100% - 20px) 4px,
+    calc(100% - 20px) 0px,
+    20px 0px,
+    20px 4px,
+    12px 4px,
+    12px 8px,
+    8px 8px,
+    8px 12px,
+    4px 12px,
+    4px 20px,
+    0px 20px
+  );
+}
