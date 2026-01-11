@@ -44,6 +44,12 @@ export function MultiSelectCombobox({
 }: MultiSelectComboboxProps) {
   const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
+  const [localItems, setLocalItems] = React.useState<ComboboxItem[]>(items);
+
+  // Update local items when items prop changes
+  React.useEffect(() => {
+    setLocalItems(items);
+  }, [items]);
 
   const handleSelect = (value: string) => {
     if (selectedValues.includes(value)) {
@@ -54,9 +60,38 @@ export function MultiSelectCombobox({
     setInputValue("");
   };
 
+  const handleCreateCustom = (customValue: string) => {
+    const trimmedValue = customValue.trim();
+    if (!trimmedValue) return;
+
+    // Create a new item with the custom value
+    const newItem: ComboboxItem = {
+      value: trimmedValue.toLowerCase(),
+      label: trimmedValue,
+    };
+
+    // Add to local items if not already present
+    if (!localItems.some((item) => item.value === newItem.value)) {
+      setLocalItems([...localItems, newItem]);
+    }
+
+    // Add to selected values
+    if (!selectedValues.includes(newItem.value)) {
+      onChange([...selectedValues, newItem.value]);
+    }
+
+    setInputValue("");
+  };
+
   const handleRemove = (valueToRemove: string) => {
     onChange(selectedValues.filter((v) => v !== valueToRemove));
   };
+
+  // Check if input matches any existing items
+  const hasExactMatch = localItems.some(
+    (item) => item.label.toLowerCase() === inputValue.toLowerCase()
+  );
+  const showCreateOption = inputValue.trim() !== "" && !hasExactMatch;
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -73,7 +108,7 @@ export function MultiSelectCombobox({
           <div className="flex flex-wrap gap-1 items-center w-full">
             {selectedValues.length > 0 ? (
               selectedValues.map((value) => {
-                const item = items.find((i) => i.value === value);
+                const item = localItems.find((i) => i.value === value);
                 return (
                   <span
                     key={value}
@@ -128,7 +163,17 @@ export function MultiSelectCombobox({
           <CommandList>
             <CommandEmpty>{emptyText}</CommandEmpty>
             <CommandGroup>
-              {items.map((item) => (
+              {showCreateOption && (
+                <CommandItem
+                  className="group"
+                  value={inputValue}
+                  onSelect={() => handleCreateCustom(inputValue)}
+                >
+                  <Check className="mr-2 h-4 w-4 opacity-0" />
+                  Створити "{inputValue}"
+                </CommandItem>
+              )}
+              {localItems.map((item) => (
                 <CommandItem
                   key={item.value}
                   className="group"

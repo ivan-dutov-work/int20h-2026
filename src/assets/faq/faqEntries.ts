@@ -52,6 +52,6 @@ export const FAQ_ENTRIES: FaqEntry[] = [
   {
     question: "Залишились питання?",
     answer:
-      'Напиши нам: <a href="https://t.me/INT20H_2026_Feedback_Bot" target="_blank" rel="noopener noreferrer" class="text-accent">@INT20H_2026_Feedback_Bot</a>',
+      'Напиши нам у Telegram 👉 <a href="https://t.me/INT20H_2026_Feedback_Bot" target="_blank" rel="noopener noreferrer" class="text-accent">@INT20H_2026_Feedback_Bot</a>',
   },
 ];

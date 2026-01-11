@@ -36,7 +36,7 @@ import Header from "./Header.astro";
 <main>
   <Hero />
 
-  <section id="about" class="px-6 md:px-16 py-8 md:py-15 flex flex-col gap-8">
+  <section id="about" class="px-6 md:px-16 py-4 md:py-8 flex flex-col gap-8">
     <Heading className="mb-4">INT20H Hackathon</Heading>
     <p class="max-w-3xl">
       Уже понад 10 років ми об'єднуємо молодих талановитих IT-розробників з
@@ -56,6 +56,9 @@ import Header from "./Header.astro";
         <p class="font-black">Місце: <span class="text-accent">Київ</span></p>
         <p class="font-black">
           Команди: <span class="text-accent">2-4 особи</span>
+        </p>
+        <p class="font-black">
+          Тривалість: <span class="text-accent">20 годин</span>
         </p>
       </div>
       <div class="hidden md:flex">
@@ -82,7 +85,7 @@ import Header from "./Header.astro";
     </p>
   </section>
 
-  <section id="categories" class="px-6 md:px-16 py-8 md:py-15">
+  <section id="categories" class="px-6 md:px-16 py-4 md:py-8">
     <Heading>Категорії</Heading>
     <div
       class="mt-8 md:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center"
@@ -94,7 +97,7 @@ import Header from "./Header.astro";
     </div>
   </section>
 
-  <section id="how-to" class="px-6 md:px-16 py-8 md:py-15">
+  <section id="how-to" class="px-6 md:px-16 py-4 md:py-8">
     <Heading className="mb-8">Як взяти участь?</Heading>
     <div class="flex flex-col gap-8 relative">
       <div class="flex justify-between items-center">
@@ -186,7 +189,7 @@ import Header from "./Header.astro";
     </div>
   </section>
 
-  <section class="px-6 md:px-16 py-8 md:py-15">
+  <section class="px-6 md:px-16 py-4 md:py-8">
     <Heading className="my-6">Що ти отримаєш?</Heading>
     <div class="grid grid-cols-1 md:grid-cols-2 md:grid-rows-3 gap-4 md:gap-8">
       <StarEntry name="Пет-проєкт у твоє портфоліо" />
@@ -200,10 +203,10 @@ import Header from "./Header.astro";
 
   <section
     id="about-us"
-    class="px-6 md:px-16 py-8 md:py-15 flex flex-col gap-8 md:gap-16"
+    class="px-6 md:px-16 py-4 md:py-8 flex flex-col gap-4 md:gap-8"
   >
     <Heading>Організатори</Heading>
-    <p class="max-w-3xl">
+    <p>
       <span class="font-pixelated"
         ><span class="text-brand-pink">BEST</span> (Board of European Students of
         Technology)</span
@@ -214,7 +217,7 @@ import Header from "./Header.astro";
     </p>
 
     <div
-      class="flex flex-col-reverse lg:flex-row gap-8 md:gap-8 justify-between lg:justify-around"
+      class="flex flex-col-reverse lg:flex-row gap-8 md:gap-8 justify-between"
     >
       <div class="relative">
         <Image
@@ -272,7 +275,7 @@ import Header from "./Header.astro";
     </div>
   </section>
 
-  <section id="faq" class="px-6 md:px-16 py-8 md:py-15">
+  <section id="faq" class="px-6 md:px-16 py-4 md:py-8">
     <Heading>FAQ</Heading>
     <div
       class="flex flex-col gap-8 items-center max-w-4xl md:px-4 lg:px-8 my-8"
@@ -299,11 +302,7 @@ import Header from "./Header.astro";
       >
       <div class="hidden lg:block p-px self-stretch bg-brand-light"></div>
       <a href="https://kpi.ua/"
-        ><Image
-          class="w-10 h-10 md:w-12 md:h-12"
-          src={kpiLogo}
-          alt="KPI Logo"
-        /></a
+        ><Image src={kpiLogo} alt="KPI Logo" class="h-full" /></a
       >
     </div>
 

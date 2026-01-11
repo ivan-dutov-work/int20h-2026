@@ -44,6 +44,8 @@ const NAV_LINKS = [
     id="mobile-menu-button"
     class="md:hidden p-2"
     aria-label="Toggle menu"
+    data-burger-src={burgerMenu.src}
+    data-arrow-src={arrowDown.src}
   >
     <Image
       id="menu-icon"
@@ -83,6 +85,10 @@ const NAV_LINKS = [
   const menuIcon = document.getElementById("menu-icon") as HTMLImageElement;
   const mobileMenuLinks = document.querySelectorAll(".mobile-menu-link");
 
+  // Get the processed image URLs from data attributes
+  const burgerSrc = mobileMenuButton?.getAttribute("data-burger-src") || "";
+  const arrowSrc = mobileMenuButton?.getAttribute("data-arrow-src") || "";
+
   let isMenuOpen = false;
 
   // Toggle mobile menu
@@ -93,14 +99,14 @@ const NAV_LINKS = [
       mobileMenu?.classList.remove("hidden");
       // Change icon to arrow-down
       if (menuIcon) {
-        menuIcon.src = "/src/assets/menu/arrow-down.png";
+        menuIcon.src = arrowSrc;
         menuIcon.alt = "Close menu";
       }
     } else {
       mobileMenu?.classList.add("hidden");
       // Change icon back to burger-menu
       if (menuIcon) {
-        menuIcon.src = "/src/assets/menu/burger-menu.png";
+        menuIcon.src = burgerSrc;
         menuIcon.alt = "Menu";
       }
     }
