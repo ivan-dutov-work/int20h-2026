@@ -6,25 +6,6 @@ import react from "@astrojs/react";
 
 // https://astro.build/config
 
-const getAllowedHost = () => {
-  const allowedUrl = process.env.ALLOWED_ORIGINS;
-  if (allowedUrl) {
-    try {
-      const url = new URL(allowedUrl);
-      return url.hostname;
-    } catch (e) {
-      return null;
-    }
-  }
-  return null;
-};
-
-const allowedHost = getAllowedHost();
-const allowedHosts = ["localhost", "127.0.0.1",];
-if (allowedHost && !allowedHosts.includes(allowedHost)) {
-  allowedHosts.push(allowedHost);
-}
-
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
@@ -34,7 +15,7 @@ export default defineConfig({
       },
     },
     preview: {
-      allowedHosts,
+      allowedHosts: ['int20h.best-kyiv.org', 'localhost']
     },
   },
   server: {
