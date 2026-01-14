@@ -24,9 +24,9 @@ const optimizedBackground = await getImage({
       content="INT20H, хакатон, ІТ, AI, штучний інтелект, конкурс програмування, студентський хакатон 2026, Київ"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="canonical" href="https://int20hforvercel.vercel.app/" />
+    <link rel="canonical" href={Astro.url.origin + Astro.url.pathname} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://int20hforvercel.vercel.app/" />
+    <meta property="og:url" content={Astro.url.origin + Astro.url.pathname} />
     <meta property="og:title" content="INT20H Хакатон 2026" />
     <meta
       property="og:description"
@@ -34,7 +34,7 @@ const optimizedBackground = await getImage({
     />
     <meta
       property="og:image"
-      content="https://int20hforvercel.vercel.app/og-image.png"
+      content={Astro.url.origin + '/og-image.png'}
     />
     <meta property="og:image:width" content="2314" />
     <meta property="og:image:height" content="1823" />

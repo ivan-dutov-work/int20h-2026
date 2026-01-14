@@ -30,5 +30,9 @@ RUN npm install --omit=dev
 # Expose port
 EXPOSE 3000
 
-# Start the preview server
-CMD ["npm", "run", "preview"]
+# Environment variables for proper proxy handling
+ENV HOST=0.0.0.0
+ENV PORT=3000
+
+# Start the preview server with host binding
+CMD ["npm", "run", "preview", "--", "--host"]
