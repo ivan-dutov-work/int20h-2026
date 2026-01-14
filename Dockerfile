@@ -23,9 +23,11 @@ WORKDIR /app
 # Copy built assets from builder
 COPY --from=builder /app/dist ./dist
 
-# Install production dependencies
+# Copy node_modules from builder (much faster than reinstalling)
+COPY --from=builder /app/node_modules ./node_modules
+
+# Copy package.json for reference
 COPY package.json ./
-RUN npm install --omit=dev
 
 # Expose port
 EXPOSE 3000
