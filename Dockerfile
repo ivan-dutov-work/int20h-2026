@@ -30,11 +30,10 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY package.json ./
 
 # Expose port
-EXPOSE 3000
+EXPOSE 4321
 
 # Environment variables for proper proxy handling
 ENV HOST=0.0.0.0
-ENV PORT=3000
 
-# Start the preview server with host binding
-CMD ["npm", "run", "preview", "--", "--host"]
+# Start the preview server with explicit port and host binding
+CMD ["npm", "run", "preview", "--", "--host", "--port", "4321"]
