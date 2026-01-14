@@ -35,5 +35,5 @@ EXPOSE 4321
 # Environment variables for proper proxy handling
 ENV HOST=0.0.0.0
 
-# Start the preview server with explicit port and host binding
-CMD ["npm", "run", "preview", "--", "--host", "--port", "4321"]
+# Start the preview server with explicit port and host binding, and allowed hosts
+CMD ["npm", "run", "preview", "--", "--host", "--port", "4321", "--allowed-hosts", "int20h.best-kyiv.org,localhost,127.0.0.1"]

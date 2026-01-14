@@ -15,13 +15,5 @@ export default defineConfig({
       },
     },
   },
-  server: {
-    port: 4321,
-    allowedHosts: true,
-  },
-  preview: {
-    port: 4321,
-    allowedHosts: true,
-  },
   integrations: [react()],
 });
