@@ -5,11 +5,13 @@ const BACKEND_URL =
   import.meta.env.BACKEND_URL ||
   "http://localhost:8000";
 
+const cleanBaseUrl = BACKEND_URL.replace(/\/$/, "");
+
 export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.text();
 
-    const response = await fetch(`${BACKEND_URL}/form/`, {
+    const response = await fetch(`${cleanBaseUrl}/form/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +24,8 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(respText, {
       status: response.status,
       headers: {
-        "Content-Type": response.headers.get("Content-Type") || "application/json",
+        "Content-Type":
+          response.headers.get("Content-Type") || "application/json",
       },
     });
   } catch (error) {
