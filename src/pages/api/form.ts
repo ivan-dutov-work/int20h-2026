@@ -1,5 +1,7 @@
 import type { APIRoute } from "astro";
 
+export const prerender = false;
+
 const BACKEND_URL =
   import.meta.env.PUBLIC_BACKEND_URL ||
   import.meta.env.BACKEND_URL ||
@@ -11,6 +13,8 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.text();
 
+    console.log("Proxy received body:", body);
+
     const response = await fetch(`${cleanBaseUrl}/form/`, {
       method: "POST",
       headers: {
@@ -18,6 +22,8 @@ export const POST: APIRoute = async ({ request }) => {
       },
       body,
     });
+
+    console.log("Response from backend: ", response);
 
     const respText = await response.text();
 
