@@ -256,7 +256,7 @@ export function ParticipationForm() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(`${BACKEND_URL}/categories/`);
+        const response = await fetch(`/api/categories`);
         if (!response.ok) throw new Error("Failed to fetch categories");
         const data = await response.json();
         setCategories(
@@ -271,7 +271,7 @@ export function ParticipationForm() {
 
     const fetchUniversities = async () => {
       try {
-        const response = await fetch(`${BACKEND_URL}/unis/`);
+        const response = await fetch(`/api/unis`);
         if (!response.ok) throw new Error("Failed to fetch universities");
         const data = await response.json();
         setUniversities(
@@ -286,7 +286,7 @@ export function ParticipationForm() {
 
     const fetchSkills = async () => {
       try {
-        const response = await fetch(`${BACKEND_URL}/skills/`);
+        const response = await fetch(`/api/skills`);
         if (!response.ok) throw new Error("Failed to fetch skills");
         const data = await response.json();
         // data is expected to be string[]
@@ -434,7 +434,7 @@ export function ParticipationForm() {
             personal_data_consent: true,
           };
 
-          const response = await fetch(`${BACKEND_URL}/form/`, {
+          const response = await fetch(`/api/form`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
