@@ -18,20 +18,10 @@ import { Work } from "./sections/JobSection";
 import { FinalSection } from "./sections/FinalSection";
 import { EndScreen } from "./EndScreen";
 
-const getBackendUrl = () => {
-  let url =
-    import.meta.env.PUBLIC_BACKEND_URL ||
-    import.meta.env.BACKEND_URL ||
-    "http://localhost:8000";
-
-  if (!url.startsWith("http://") && !url.startsWith("https://")) {
-    url = `https://${url}`;
-  }
-
-  return url.replace(/\/$/, "");
-};
-
-const BACKEND_URL = getBackendUrl();
+const getBackendUrl = () =>
+  import.meta.env.PUBLIC_BACKEND_URL ||
+  import.meta.env.BACKEND_URL ||
+  "http://localhost:8000";
 
 const formSchema = z.object({
   firstName: z
@@ -75,7 +65,7 @@ const formSchema = z.object({
       })
       .max(100, {
         message: "Номер телефону має містити не більше 100 символів.",
-      })
+      }),
   ),
   university: z
     .string()
@@ -256,13 +246,13 @@ export function ParticipationForm() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(`/api/categories`);
+        const response = await fetch(`${getBackendUrl()}/categories/`);
         if (!response.ok) throw new Error("Failed to fetch categories");
         const data = await response.json();
         setCategories(
           (data.categories || []).sort(
-            (a: Category, b: Category) => a.id - b.id
-          )
+            (a: Category, b: Category) => a.id - b.id,
+          ),
         );
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -271,13 +261,13 @@ export function ParticipationForm() {
 
     const fetchUniversities = async () => {
       try {
-        const response = await fetch(`/api/unis`);
+        const response = await fetch(`${getBackendUrl()}/unis/`);
         if (!response.ok) throw new Error("Failed to fetch universities");
         const data = await response.json();
         setUniversities(
           (data.universities || []).sort(
-            (a: University, b: University) => a.id - b.id
-          )
+            (a: University, b: University) => a.id - b.id,
+          ),
         );
       } catch (error) {
         console.error("Error fetching universities:", error);
@@ -286,7 +276,7 @@ export function ParticipationForm() {
 
     const fetchSkills = async () => {
       try {
-        const response = await fetch(`/api/skills`);
+        const response = await fetch(`${getBackendUrl()}/skills/`);
         if (!response.ok) throw new Error("Failed to fetch skills");
         const data = await response.json();
         // data is expected to be string[]
@@ -404,10 +394,10 @@ export function ParticipationForm() {
         setSubmissionStatus("submitting");
         try {
           const categoryId = categories.find(
-            (c) => c.name === values.category
+            (c) => c.name === values.category,
           )?.id;
           const universityId = universities.find(
-            (u) => u.name === values.university
+            (u) => u.name === values.university,
           )?.id;
 
           const payload = {
@@ -431,10 +421,12 @@ export function ParticipationForm() {
             source: values.source,
             otherSource: values.otherSource || null,
             comment: values.comment || null,
-            personal_data_consent: true,
+            personal_data_consent: values.personalDataConsent,
           };
 
-          const response = await fetch(`/api/form`, {
+          console.log(payload);
+
+          const response = await fetch(`${getBackendUrl()}/form/`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -453,7 +445,7 @@ export function ParticipationForm() {
           console.error("Submission error:", error);
           setSubmissionStatus("failure");
           setErrorMessage(
-            error.message || "Щось пішло не так. Спробуйте ще раз."
+            error.message || "Щось пішло не так. Спробуйте ще раз.",
           );
         }
       })();
@@ -534,8 +526,8 @@ export function ParticipationForm() {
                 {submissionStatus === "submitting"
                   ? "Надсилання..."
                   : step < 4
-                  ? "Далі"
-                  : "Надіслати"}
+                    ? "Далі"
+                    : "Надіслати"}
               </Button>
             </div>
           </form>
