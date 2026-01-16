@@ -34,18 +34,29 @@ const getBackendUrl = () => {
 const BACKEND_URL = getBackendUrl();
 
 const formSchema = z.object({
-  firstName: z.string().min(2, {
-    message: "Ім'я має містити щонайменше 2 символи.",
-  }),
-  email: z.string().email({
-    message: "Будь ласка, введіть коректну електронну пошту.",
-  }),
+  firstName: z
+    .string()
+    .min(2, {
+      message: "Ім'я має містити щонайменше 2 символи.",
+    })
+    .max(100, { message: "Ім'я має містити не більше 100 символів." }),
+  email: z
+    .string()
+    .email({
+      message: "Будь ласка, введіть коректну електронну пошту.",
+    })
+    .max(100, {
+      message: "Електронна пошта має містити не більше 100 символів.",
+    }),
   telegram: z
     .string()
     .min(1, { message: "Вкажіть Telegram-хендл." })
     .refine((val) => /^@?[a-zA-Z0-9_]{5,32}$/.test(val), {
       message:
         "Вкажіть дійсний Telegram-хендл (наприклад @example або example, 5–32 символи).",
+    })
+    .max(100, {
+      message: "Telegram-хендл має містити не більше 100 символів.",
     }),
   phone: z.preprocess(
     (val) => {
@@ -56,20 +67,36 @@ const formSchema = z.object({
       if (val.startsWith("+") && /^\+\d+$/.test(val)) return val;
       return val;
     },
-    z.string().regex(/^\+380\d{9}$/, {
-      message:
-        "Введіть номер у форматі +380XXXXXXXXX (можна використовувати пробіли або дефіси).",
-    })
+    z
+      .string()
+      .regex(/^\+380\d{9}$/, {
+        message:
+          "Введіть номер у форматі +380XXXXXXXXX (можна використовувати пробіли або дефіси).",
+      })
+      .max(100, {
+        message: "Номер телефону має містити не більше 100 символів.",
+      })
   ),
-  university: z.string().min(1, {
-    message: "Будь ласка, виберіть університет.",
-  }),
-  studyYear: z.string().min(1, {
-    message: "Будь ласка, виберіть курс.",
-  }),
-  category: z.string().min(1, {
-    message: "Будь ласка, виберіть категорію.",
-  }),
+  university: z
+    .string()
+    .min(1, {
+      message: "Будь ласка, виберіть університет.",
+    })
+    .max(100, {
+      message: "Назва університету має містити не більше 100 символів.",
+    }),
+  studyYear: z
+    .string()
+    .min(1, {
+      message: "Будь ласка, виберіть курс.",
+    })
+    .max(100, { message: "Курс має містити не більше 100 символів." }),
+  category: z
+    .string()
+    .min(1, {
+      message: "Будь ласка, виберіть категорію.",
+    })
+    .max(100, { message: "Категорія має містити не більше 100 символів." }),
   format: z.enum(["offline", "online"], {
     error: "Будь ласка, виберіть формат участі.",
   }),
@@ -77,15 +104,37 @@ const formSchema = z.object({
     error: "Будь ласка, вкажіть, чи є у вас команда.",
   }),
   teamLeader: z.enum(["yes", "no"]).optional(),
-  teamName: z.string().optional(),
+  teamName: z
+    .string()
+    .max(100, { message: "Назва команди має містити не більше 100 символів." })
+    .optional(),
   description: z.string().optional(),
   wantsCV: z.enum(["yes", "no"]).optional(),
-  cv: z.string().optional(),
-  linkedin: z.string().optional(),
+  cv: z
+    .string()
+    .max(100, {
+      message: "Посилання на CV має містити не більше 100 символів.",
+    })
+    .optional(),
+  linkedin: z
+    .string()
+    .max(100, {
+      message: "Посилання на LinkedIn має містити не більше 100 символів.",
+    })
+    .optional(),
   workConsent: z.boolean().optional(),
-  source: z.string().min(1, { message: "Будь ласка, виберіть джерело." }),
-  otherSource: z.string().optional(),
-  comment: z.string().optional(),
+  source: z
+    .string()
+    .min(1, { message: "Будь ласка, виберіть джерело." })
+    .max(100, { message: "Джерело має містити не більше 100 символів." }),
+  otherSource: z
+    .string()
+    .max(100, { message: "Інше джерело має містити не більше 100 символів." })
+    .optional(),
+  comment: z
+    .string()
+    .max(2000, { message: "Коментар має містити не більше 2000 символів." })
+    .optional(),
   personalDataConsent: z.boolean(),
   skills: z.array(z.string()).default([]),
 });
