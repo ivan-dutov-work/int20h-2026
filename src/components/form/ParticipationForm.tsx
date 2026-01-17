@@ -67,26 +67,17 @@ const formSchema = z.object({
         message: "Номер телефону має містити не більше 100 символів.",
       }),
   ),
-  university: z
-    .string()
-    .min(1, {
-      message: "Будь ласка, виберіть університет.",
-    })
-    .max(100, {
-      message: "Назва університету має містити не більше 100 символів.",
-    }),
-  studyYear: z
-    .string()
-    .min(1, {
-      message: "Будь ласка, виберіть курс.",
-    })
-    .max(100, { message: "Курс має містити не більше 100 символів." }),
-  category: z
-    .string()
-    .min(1, {
-      message: "Будь ласка, виберіть категорію.",
-    })
-    .max(100, { message: "Категорія має містити не більше 100 символів." }),
+  university: z.string().min(1, {
+    message: "Будь ласка, виберіть університет.",
+  }),
+
+  studyYear: z.string().min(1, {
+    message: "Будь ласка, виберіть курс.",
+  }),
+
+  category: z.string().min(1, {
+    message: "Будь ласка, виберіть категорію.",
+  }),
   format: z.enum(["offline", "online"], {
     error: "Будь ласка, виберіть формат участі.",
   }),
@@ -115,8 +106,7 @@ const formSchema = z.object({
   workConsent: z.boolean().optional(),
   source: z
     .string()
-    .min(1, { message: "Будь ласка, виберіть джерело." })
-    .max(100, { message: "Джерело має містити не більше 100 символів." }),
+    .min(1, { message: "Будь ласка, виберіть джерело." }),
   otherSource: z
     .string()
     .max(100, { message: "Інше джерело має містити не більше 100 символів." })
