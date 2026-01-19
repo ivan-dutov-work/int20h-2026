@@ -67,17 +67,9 @@ const formSchema = z.object({
         message: "Номер телефону має містити не більше 100 символів.",
       }),
   ),
-  university: z
-    .string()
-    .min(1, {
-      message: "Будь ласка, виберіть університет.",
-    })
-    .optional(),
+  university: z.string().optional(),
 
-  studyYear: z
-    .string()
-    .min(1, { message: "Будь ласка, виберіть курс." })
-    .optional(),
+  studyYear: z.string().optional(),
 
   category: z.string().min(1, {
     message: "Будь ласка, виберіть категорію.",
