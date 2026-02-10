@@ -1,0 +1,58 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  src: ImageMetadata | string;
+  alt: string;
+  className?: string;
+  imageClassName?: string;
+  loading?: "eager" | "lazy";
+  showBlur?: boolean;
+  blurColor?: "accent" | "pink";
+}
+
+const {
+  src,
+  alt,
+  className = "",
+  imageClassName = "",
+  loading = "lazy",
+  showBlur = false,
+  blurColor = "accent",
+} = Astro.props;
+
+const blurClass = blurColor === "pink" ? "bg-brand-pink" : "bg-accent";
+---
+
+<div class:list={["relative", className]}>
+  <div class="pixelated-corners overflow-hidden">
+    {
+      typeof src === "string" ? (
+        <img
+          src={src}
+          alt={alt}
+          loading={loading}
+          class:list={["w-full h-full object-cover pixelated-image", imageClassName]}
+        />
+      ) : (
+        <Image
+          src={src}
+          alt={alt}
+          loading={loading}
+          class:list={["w-full h-full object-cover pixelated-image", imageClassName]}
+        />
+      )
+    }
+  </div>
+  {
+    showBlur && (
+      <div
+        class:list={[
+          "blur-[95px] absolute top-0 left-0 right-0 bottom-0 z-[-1] opacity-10 rounded-full",
+          blurClass,
+        ]}
+      />
+    )
+  }
+</div>
