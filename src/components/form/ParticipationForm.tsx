@@ -430,7 +430,7 @@ export function ParticipationForm() {
           const payload = {
             full_name: values.firstName,
             email: values.email,
-            telegram: values.telegram,
+            telegram: "@" + values.telegram.replace(/^@/, "").toLowerCase(),
             phone: values.phone,
             university_id: universityId,
             category_id: categoryId,
