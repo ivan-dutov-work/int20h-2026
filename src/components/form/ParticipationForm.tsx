@@ -23,6 +23,11 @@ const getBackendUrl = () =>
   import.meta.env.BACKEND_URL ||
   "http://localhost:8000";
 
+const endDateRaw =
+  (import.meta.env.PUBLIC_REGISTRATION_END_DATE as string) ??
+  "2026-02-22T23:59:59+02:00";
+const endDate = new Date(endDateRaw);
+
 const formSchema = z.object({
   firstName: z
     .string()
@@ -480,6 +485,18 @@ export function ParticipationForm() {
       })();
       return;
     }
+  }
+
+  if (new Date() > endDate) {
+    return (
+      <div className="max-w-lg mx-auto text-center border border-accent/40 bg-accent/5 rounded-sm px-8 py-16 flex flex-col gap-4">
+        <p className="font-bold text-2xl">❌ Реєстрацію завершено</p>
+        <p className="opacity-60">Приєднуйся до хакатону наступного року!</p>
+        <a href="/" className="text-accent underline mt-2">
+          ← На головну
+        </a>
+      </div>
+    );
   }
 
   if (submissionStatus === "success") {

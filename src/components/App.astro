@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import Heading from "./ui/heading";
-import Hero from "./Hero.astro";
+import { Hero } from "./Hero";
 import Category from "./Category.astro";
 import Window from "./Window.astro";
 import StarEntry from "./StarEntry.astro";
@@ -43,7 +43,7 @@ import TeamSection from "./TeamSection.astro";
 <Header />
 
 <main>
-  <Hero />
+  <Hero client:load />
 
   <section id="about" class="px-6 md:px-16 py-4 md:py-8 flex flex-col gap-8">
     <Heading className="mb-4">INT20H Hackathon</Heading>
