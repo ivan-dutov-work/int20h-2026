@@ -1,0 +1,142 @@
+---
+import { TeamCarousel, type TeamMember } from "./TeamCarousel";
+import { TeamMemberCard } from "./TeamMemberCard";
+import Heading from "./ui/heading";
+
+// Import team member images
+import nikitaImg from "@/assets/coreteam/nikita.png";
+import mishaImg from "@/assets/coreteam/misha.png";
+import yuliannaImg from "@/assets/coreteam/yulianna.png";
+import mariaImg from "@/assets/coreteam/maria.png";
+import nyushaImg from "@/assets/coreteam/nyusha.png";
+import tanyaImg from "@/assets/coreteam/tanya.png";
+import sofiaImg from "@/assets/coreteam/sofia.png";
+import sashaImg from "@/assets/coreteam/sasha.png";
+import ivanImg from "@/assets/coreteam/ivan.png";
+import victorImg from "@/assets/coreteam/victor.png";
+import krisImg from "@/assets/coreteam/kris.png";
+import olesiaImg from "@/assets/coreteam/olesia.png";
+import dariaImg from "@/assets/coreteam/daria.png";
+import nastiaImg from "@/assets/coreteam/nastia.png";
+import artemImg from "@/assets/coreteam/artem.png";
+
+// Team members data
+const teamMembers: TeamMember[] = [
+  {
+    name: "NIKITA",
+    role: "Main Organiser",
+    imageSrc: nikitaImg.src,
+    imagePosition: "object-top",
+  },
+  {
+    name: "MISHA",
+    role: "Logist",
+    imageSrc: mishaImg.src,
+    imagePosition: "object-top",
+  },
+  {
+    name: "YULIANNA",
+    role: "Barter",
+    imageSrc: yuliannaImg.src,
+    imagePosition: "object-center",
+  },
+  {
+    name: "MARIA",
+    role: "Designer",
+    imageSrc: mariaImg.src,
+    imagePosition: "object-top",
+  },
+  {
+    name: "NYUSHA",
+    role: "HR",
+    imageSrc: nyushaImg.src,
+    imagePosition: "object-top",
+  },
+  {
+    name: "TANYA",
+    role: "PAX",
+    imageSrc: tanyaImg.src,
+    imagePosition: "object-top",
+  },
+  {
+    name: "SOFIA",
+    role: "CR",
+    imageSrc: sofiaImg.src,
+    imagePosition: "object-top",
+  },
+  {
+    name: "SASHA",
+    role: "Designer",
+    imageSrc: sashaImg.src,
+    imagePosition: "object-top",
+  },
+  {
+    name: "IVAN",
+    role: "IT & Topic",
+    imageSrc: ivanImg.src,
+    imagePosition: "object-top",
+  },
+  {
+    name: "VICTOR",
+    role: "PR",
+    imageSrc: victorImg.src,
+    imagePosition: "object-top",
+  },
+  {
+    name: "KRIS",
+    role: "Copywriter",
+    imageSrc: krisImg.src,
+    imagePosition: "object-top",
+  },
+  {
+    name: "OLESIA",
+    role: "Brand designer",
+    imageSrc: olesiaImg.src,
+    imagePosition: "object-top",
+  },
+  {
+    name: "DARIA",
+    role: "Media",
+    imageSrc: dariaImg.src,
+    imagePosition: "object-top",
+  },
+  {
+    name: "NASTIA",
+    role: "Host",
+    imageSrc: nastiaImg.src,
+    imagePosition: "object-top",
+  },
+  {
+    name: "ARTEM",
+    role: "Mentor",
+    imageSrc: artemImg.src,
+    imagePosition: "object-top",
+  },
+];
+---
+
+<section id="team" class="px-6 md:px-16 py-12 md:py-8">
+  <Heading>Команда</Heading>
+
+  <!-- Mobile: Vertical Carousel with navigation buttons -->
+  <div class="block md:hidden mt-4 mb-4">
+    <TeamCarousel members={teamMembers} client:load />
+  </div>
+
+  <!-- Desktop: Grid -->
+  <div
+    class="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 mt-8 md:mt-16"
+  >
+    {
+      teamMembers.map((member) => (
+        <TeamMemberCard
+          name={member.name}
+          role={member.role}
+          imageSrc={member.imageSrc}
+          imagePosition={member.imagePosition}
+          client:load
+        />
+      ))
+    }
+  </div>
+</section>
