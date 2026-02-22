@@ -4,36 +4,11 @@ import "../styles/index.css";
 
 import HeaderOther from "@/components/HeaderOther.astro";
 import { ParticipationForm } from "@/components/form/ParticipationForm";
-
-const endDateRaw =
-  import.meta.env.PUBLIC_REGISTRATION_END_DATE ?? "2026-02-22T23:59:59+02:00";
-const endDate = new Date(endDateRaw);
-const isRegistrationClosed = new Date() > endDate;
-const endDateFormatted = endDate.toLocaleString("uk-UA", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-  hour: "2-digit",
-  minute: "2-digit",
-  timeZone: "Europe/Kyiv",
-});
 ---
 
 <Layout>
   <HeaderOther />
   <main class="my-8 px-4 sm:px-6 lg:px-8">
-    {
-      isRegistrationClosed ? (
-        <div class="max-w-lg mx-auto text-center border border-accent/40 bg-accent/5 rounded-sm px-8 py-16 flex flex-col gap-4">
-          <p class="font-bold text-2xl">❌ Реєстрацію завершено</p>
-          <p class="opacity-60">Приєднуйся до хакатону наступного року!</p>
-          <a href="/" class="text-accent underline mt-2">
-            ← На головну
-          </a>
-        </div>
-      ) : (
-        <ParticipationForm client:load />
-      )
-    }
+    <ParticipationForm client:load />
   </main>
 </Layout>
