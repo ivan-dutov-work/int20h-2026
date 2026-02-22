@@ -27,7 +27,7 @@ export const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
         {/* soft aqua blurred background layer (from Figma) */}
         <div
           className={cn(
-            "absolute inset-0 z-0 bg-brand-cyan opacity-40 filter",
+            "absolute inset-0 z-0 bg-brand-cyan opacity-25 filter",
             {
               "blur-[32px]": blur === "large",
               "blur-[16px]": blur === "small",
