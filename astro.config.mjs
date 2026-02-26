@@ -17,4 +17,7 @@ export default defineConfig({
   },
 
   integrations: [react()],
+  build: {
+    assetsPrefix: "https://best.kpi.ua/int20h-2026/_astro",
+  },
 });
